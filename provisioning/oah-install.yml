@@ -1,0 +1,49 @@
+---
+- hosts: all
+
+  vars_files:
+    - ../oah-config.yml
+
+  pre_tasks:
+    - include: tasks/init-debian.yml
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    # Essential roles.
+    - openapphack.firewall
+    - openapphack.git
+    - openapphack.postfix
+    - { role: openapphack.apache, when: oahvm_webserver == 'apache' }
+    - { role: openapphack.nginx, when: oahvm_webserver == 'nginx' }
+    - openapphack.mysql
+    - openapphack.php
+    - openapphack.php-pecl
+    - openapphack.php-mysql
+    - openapphack.composer
+
+    # Conditionally-installed roles.
+    - { role: openapphack.memcached, when: '"memcached" in installed_extras' }
+    - { role: openapphack.php-memcached, when: '"memcached" in installed_extras' }
+    - { role: openapphack.php-xdebug, when: '"xdebug" in installed_extras' }
+    - { role: openapphack.php-xhprof, when: '"xhprof" in installed_extras' }
+    - { role: openapphack.adminer, when: '"adminer" in installed_extras' }
+    - { role: openapphack.pimpmylog, when: '"pimpmylog" in installed_extras' }
+    - { role: openapphack.daemonize, when: '"mailhog" in installed_extras' }
+    - { role: openapphack.mailhog, when: '"mailhog" in installed_extras' }
+    - { role: openapphack.nodejs, when: '"nodejs" in installed_extras' }
+    - { role: openapphack.ruby, when: '"ruby" in installed_extras' }
+    - { role: openapphack.java, when: '"solr" in installed_extras or "selenium" in installed_extras' }
+    - { role: openapphack.selenium, when: '"selenium" in installed_extras' }
+    - { role: openapphack.solr, when: '"solr" in installed_extras' }
+    - { role: openapphack.varnish, when: '"varnish" in installed_extras' }
+
+    # Roles for security and stability on production.
+    - { role: openapphack.security, when: extra_security_enabled }
+
+  tasks:
+    - include: tasks/sshd.yml
+    - include: tasks/extras.yml
+    - include: tasks/www.yml
+    - include: tasks/apparmor.yml
+      when: ansible_os_family == 'Debian'
+    - include: tasks/cron.yml

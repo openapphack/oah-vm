@@ -1,8 +1,7 @@
 ---
+env_name: oah-vm
 # `vagrant_box` .
-
 vagrant_box: virtualenv/ubuntu1404
-
 vagrant_user: vagrant
 
 # If you need to run multiple instances of Openhack VM, set a unique hostname,

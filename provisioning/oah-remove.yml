@@ -1,6 +1,9 @@
 ---
 - hosts: all
 
+  vars:
+  - ove_command = remove
+
   vars_files:
     - ../oah-config.yml
 
@@ -10,6 +13,7 @@
 
   roles:
     # Essential roles.
+    - oah.oah
 
     # Conditionally-installed roles.
 

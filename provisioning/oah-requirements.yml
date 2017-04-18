@@ -1,19 +1,7 @@
 ---
 - src: https://github.com/openapphack/ansible-role-oah
   version: master
-  name: oah
-- src: https://github.com/openapphack/ansible-role-oah-selenium
-  version: master
-  name: oah.selenium
-- src: https://github.com/openapphack/ansible-role-oah-adminer
-  version: master
-  name: oah.adminer
-- src: https://github.com/openapphack/ansible-role-oah-apache
-  version: master
-  name: oah.apache
-- src: https://github.com/openapphack/ansible-role-oah-composer
-  version: master
-  name: oah.composer
+  name: oah.oah
 - src: https://github.com/openapphack/ansible-role-oah-daemonize
   version: master
   name: oah.daemonize
@@ -23,57 +11,6 @@
 - src: https://github.com/openapphack/ansible-role-oah-git
   version: master
   name: oah.git
-- src: https://github.com/openapphack/ansible-role-oah-java
-  version: master
-  name: oah.java
-- src: https://github.com/openapphack/ansible-role-oah-mailhog
-  version: master
-  name: oah.mailhog
-- src: https://github.com/openapphack/ansible-role-oah-memcached
-  version: master
-  name: oah.memcached
-- src: https://github.com/openapphack/ansible-role-oah-mysql
-  version: master
-  name: oah.mysql
-- src: https://github.com/openapphack/ansible-role-oah-nginx
-  version: master
-  name: oah.nginx
-- src: https://github.com/openapphack/ansible-role-oah-nodejs
-  version: master
-  name: oah.nodejs
-- src: https://github.com/openapphack/ansible-role-oah-php
-  version: master
-  name: oah.php
-- src: https://github.com/openapphack/ansible-role-oah-php-memcached
-  version: master
-  name: oah.php-memcached
-- src: https://github.com/openapphack/ansible-role-oah-php-mysql
-  version: master
-  name: oah.php-mysql
-- src: https://github.com/openapphack/ansible-role-oah-php-pecl
-  version: master
-  name: oah.php-pecl
-- src: https://github.com/openapphack/ansible-role-oah-php-xdebug
-  version: master
-  name: oah.php-xdebug
-- src: https://github.com/openapphack/ansible-role-oah-php-xhprof
-  version: master
-  name: oah.php-xhprof
-- src: https://github.com/openapphack/ansible-role-oah-pimpmylog
-  version: master
-  name: oah.pimpmylog
-- src: https://github.com/openapphack/ansible-role-oah-postfix
-  version: master
-  name: oah.postfix
-- src: https://github.com/openapphack/ansible-role-oah-ruby
-  version: master
-  name: oah.ruby
 - src: https://github.com/openapphack/ansible-role-oah-security
   version: master
   name: oah.security
-- src: https://github.com/openapphack/ansible-role-oah-solr
-  version: master
-  name: oah.solr
-- src: https://github.com/openapphack/ansible-role-oah-varnish
-  version: master
-  name: oah.varnish

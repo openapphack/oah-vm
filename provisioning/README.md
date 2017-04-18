@@ -1,5 +1,6 @@
-# openapphack-shell
-Sub project of OpenAppHack, shell for openapphack
+# oah vm
+
+The default environment for any oah environment
 
 # Installation
 

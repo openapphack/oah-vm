@@ -1,6 +1,9 @@
 ---
 - hosts: all
 
+  vars:
+  - ove_command = install
+
   vars_files:
     - ../oah-config.yml
 
@@ -10,32 +13,9 @@
 
   roles:
     # Essential roles.
+    - oah.oah
     - oah.firewall
     - oah.git
-    - oah.postfix
-    - { role: oah.apache, when: oahvm_webserver == 'apache' }
-    - { role: oah.nginx, when: oahvm_webserver == 'nginx' }
-    - oah.mysql
-    - oah.php
-    - oah.php-pecl
-    - oah.php-mysql
-    - oah.composer
-
-    # Conditionally-installed roles.
-    - { role: oah.memcached, when: '"memcached" in installed_extras' }
-    - { role: oah.php-memcached, when: '"memcached" in installed_extras' }
-    - { role: oah.php-xdebug, when: '"xdebug" in installed_extras' }
-    - { role: oah.php-xhprof, when: '"xhprof" in installed_extras' }
-    - { role: oah.adminer, when: '"adminer" in installed_extras' }
-    - { role: oah.pimpmylog, when: '"pimpmylog" in installed_extras' }
-    - { role: oah.daemonize, when: '"mailhog" in installed_extras' }
-    - { role: oah.mailhog, when: '"mailhog" in installed_extras' }
-    - { role: oah.nodejs, when: '"nodejs" in installed_extras' }
-    - { role: oah.ruby, when: '"ruby" in installed_extras' }
-    - { role: oah.java, when: '"solr" in installed_extras or "selenium" in installed_extras' }
-    - { role: oah.selenium, when: '"selenium" in installed_extras' }
-    - { role: oah.solr, when: '"solr" in installed_extras' }
-    - { role: oah.varnish, when: '"varnish" in installed_extras' }
 
     # Roles for security and stability on production.
     - { role: oah.security, when: extra_security_enabled }

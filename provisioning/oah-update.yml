@@ -1,8 +1,12 @@
 ---
 - hosts: all
 
+  vars:
+    - ove_command = update
+
   vars_files:
-    - ../oah-config.yml
+      - ../oah-config.yml
+
 
   pre_tasks:
     - include: tasks/init-debian.yml
@@ -10,6 +14,7 @@
 
   roles:
     # Essential roles.
+    - oah.oah
 
     # Conditionally-installed roles.
 

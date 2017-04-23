@@ -2,6 +2,18 @@
 - src: https://github.com/openapphack/ansible-role-oah
   version: master
   name: oah.oah
+- src: https://github.com/openapphack/ansible-role-oah-shell
+  version: master
+  name: oah.shell
+- src: https://github.com/openapphack/ansible-role-oah-users
+  version: master
+  name: oah.users
+- src: https://github.com/openapphack/ansible-role-oah-usage
+  version: master
+  name: oah.usage
+- src: https://github.com/openapphack/ansible-role-oah-projects
+  version: master
+  name: oah.projects
 - src: https://github.com/openapphack/ansible-role-oah-daemonize
   version: master
   name: oah.daemonize

@@ -28,6 +28,36 @@ if !File.exist?("#{dir}/oah-config.yml")
 end
 vconfig = YAML::load_file("#{dir}/oah-config.yml")
 
+
+$script = <<SCRIPT
+echo "create user vagrant"
+adduser --disabled-password --gecos "" vagrant
+echo 'vagrant:vagrant' | chpasswd
+ls -al /home/
+echo "add sudo privilege to user vagrant"
+cp /etc/sudoers.d/90-cloud-init-users /etc/sudoers.d/admin
+chmod +w /etc/sudoers.d/admin
+ls -al /etc/sudoers.d/
+sed -i 's/ubuntu/vagrant/g' /etc/sudoers.d/admin
+cat /etc/sudoers.d/admin
+echo "enable ssh access for user vagrant"
+mkdir /home/vagrant/.ssh
+chown vagrant:vagrant /home/vagrant/.ssh
+cat /home/ubuntu/.ssh/authorized_keys > /home/vagrant/.ssh/authorized_keys
+chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+su - vagrant -c "cat /home/vagrant/.ssh/authorized_keys"
+chmod 600 /home/vagrant/.ssh/authorized_keys
+ls -al /home/vagrant/.ssh
+chmod 700 /home/vagrant/.ssh
+ls -al /home/vagrant
+sudo apt update -y
+sudo apt full-upgrade -y
+sudo apt-get autoremove -y
+test -e /usr/bin/python || (sudo apt -y update && apt install -y python-minimal)
+sudo systemctl disable apt-daily.service
+sudo systemctl disable apt-daily.timer
+SCRIPT
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = vconfig['vagrant_hostname']
   if vconfig['vagrant_ip'] == "0.0.0.0" && Vagrant.has_plugin?("vagrant-auto_network")
@@ -42,29 +72,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network :public_network, ip: vconfig['vagrant_public_ip']
   end
 
-  config.ssh.insert_key = false
+  config.ssh.insert_key = true
   config.ssh.forward_agent = true
+  config.ssh.username = vconfig['vagrant_user']
+  #config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
 
   config.vm.box = vconfig['vagrant_box']
 
-  # If hostsupdater plugin is installed, add all server names as aliases.
-  if Vagrant.has_plugin?("vagrant-hostsupdater")
-    config.hostsupdater.aliases = []
-    # Add all hosts that aren't defined as Ansible vars.
-    if vconfig['openhackvm_webserver'] == "apache"
-      for host in vconfig['apache_vhosts']
-        unless host['servername'].include? "{{"
-          config.hostsupdater.aliases.push(host['servername'])
-        end
-      end
-    else
-      for host in vconfig['nginx_hosts']
-        unless host['server_name'].include? "{{"
-          config.hostsupdater.aliases.push(host['server_name'])
-        end
-      end
-    end
-  end
 
   for synced_folder in vconfig['vagrant_synced_folders'];
     config.vm.synced_folder synced_folder['local_path'], synced_folder['destination'],
@@ -77,6 +91,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       mount_options: synced_folder.include?('mount_options') ? synced_folder['mount_options'] : []
   end
 
+  config.vm.provision "shell", inline: $script
   # Provision using Ansible provisioner if Ansible is installed on host.
 
   if which('ansible-playbook')
@@ -98,6 +113,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = vconfig['vagrant_cpus']
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--ioapic", "on"]
+    v.gui=vconfig['oah_vm_gui']
   end
 
   config.vm.define vconfig['vagrant_machine_name'] do |d|

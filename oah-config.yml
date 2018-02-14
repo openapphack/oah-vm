@@ -4,8 +4,8 @@ env_name: oah-vm
 #GUI Flag
 oah_vm_gui: true
 # `vagrant_box` .
-#vagrant_box: OAH/ubuntu1404
-vagrant_box: "ubuntu/xenial64"
+#vagrant_box: "ubuntu/xenial64"
+vagrant_box: "bento/xenial64"
 vagrant_user: ubuntu
 oah_env_user: ubuntu
 oah_user: oahdev

@@ -2,7 +2,7 @@
 - hosts: all
 
   vars:
-  - ove_command: remove
+  - oah_command: remove
 
   vars_files:
     - ../oah-config.yml

@@ -2,7 +2,7 @@
 - hosts: all
 
   vars:
-  - ove_command: install
+  - oah_command: install
 
   vars_files:
     - ../oah-config.yml

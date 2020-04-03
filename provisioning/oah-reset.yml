@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars:
-  - ove_command: reset
+  - oah_command: reset
 
   vars_files:
     - ../oah-config.yml

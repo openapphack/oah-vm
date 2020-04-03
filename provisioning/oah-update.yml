@@ -2,7 +2,7 @@
 - hosts: all
 
   vars:
-    - ove_command: update
+    - oah_command: update
 
   vars_files:
       - ../oah-config.yml

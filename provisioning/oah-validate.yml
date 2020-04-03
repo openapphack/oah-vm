@@ -2,7 +2,7 @@
 - hosts: all
 
   vars:
-  - ove_command: validate
+  - oah_command: validate
 
   vars_files:
     - ../oah-config.yml
